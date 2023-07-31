@@ -1,7 +1,9 @@
 import { ConfigPlugin } from "@expo/config-plugins";
 
-import withIosSettingsPersist, { rootPlist } from "./withIosSettingsPersist";
-import { withSettingsStrings } from "./withSettingsStrings";
+import withIosSettingsPersist, {
+  rootEnglishStrings,
+  rootPlist,
+} from "./withIosSettingsPersist";
 
 export const withSettingsBundle: ConfigPlugin = (config) => {
   // Make some modifications
@@ -39,12 +41,10 @@ export const withSettingsBundle: ConfigPlugin = (config) => {
   });
 
   // Add some localized title
-  withSettingsStrings(config, (config) => {
+  rootEnglishStrings.withStrings(config, (config) => {
     config.modResults["title"] = "Hello World";
     return config;
   });
 
   return withIosSettingsPersist(config);
 };
-
-export { withSettingsStrings };
