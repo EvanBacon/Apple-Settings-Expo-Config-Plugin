@@ -9,8 +9,6 @@ import * as plist from "@expo/plist";
 import * as fs from "fs";
 import path from "path";
 
-const customModName = "rootPlist";
-
 /** Indicates that the element is displayed only on specific types of devices. The value of this key is an array of strings with the supported idioms. Include the string “Phone” to display the element on iPhone and iPod touch. Include the string to “Pad” to display it on iPad. */
 export type UserInterfaceIdiom = "Pad" | "Phone";
 
@@ -178,62 +176,73 @@ export type RootPlist = {
     PreferenceSpecifier)[];
 };
 
-export const withRootPlist: ConfigPlugin<Mod<RootPlist>> = (config, action) => {
-  return withMod(config, {
-    platform: "ios",
-    mod: customModName,
-    action,
-  });
-};
+export function createModSetForSettingsPage({
+  name = "Root",
+  locales = name,
+}: { name?: string; locales?: string } = {}) {
+  const customModName = "settings" + name + "Plist";
 
-const withRootPlistBaseModInternal: ConfigPlugin = (config) => {
-  return BaseMods.withGeneratedBaseMods(config, {
-    platform: "ios",
-    saveToInternal: true,
-    skipEmptyMod: false,
-    providers: {
-      [customModName]: BaseMods.provider<RootPlist>({
-        isIntrospective: true,
+  const withSettingsPlist: ConfigPlugin<Mod<RootPlist>> = (config, action) => {
+    return withMod(config, {
+      platform: "ios",
+      mod: customModName,
+      action,
+    });
+  };
 
-        async getFilePath({ modRequest, _internal }) {
-          return path.join(
-            modRequest.platformProjectRoot,
-            modRequest.projectName!,
-            "Settings.bundle/Root.plist"
-          );
-        },
-        async read(filePath) {
-          try {
-            if (fs.existsSync(filePath) === false) {
-              return {
-                StringsTable: "Root",
-                PreferenceSpecifiers: [],
-              };
+  const withRootPlistBaseModInternal: ConfigPlugin = (config) => {
+    return BaseMods.withGeneratedBaseMods(config, {
+      platform: "ios",
+      saveToInternal: true,
+      skipEmptyMod: false,
+      providers: {
+        [customModName]: BaseMods.provider<RootPlist>({
+          isIntrospective: true,
+
+          async getFilePath({ modRequest, _internal }) {
+            return path.join(
+              modRequest.platformProjectRoot,
+              modRequest.projectName!,
+              `Settings.bundle/${name}.plist`
+            );
+          },
+          async read(filePath) {
+            try {
+              if (fs.existsSync(filePath) === false) {
+                return {
+                  StringsTable: locales,
+                  PreferenceSpecifiers: [],
+                };
+              }
+              return plist.default.parse(
+                await fs.promises.readFile(filePath, "utf-8")
+              );
+            } catch (error) {
+              throw new Error(
+                `Failed to parse the iOS Settings.bundle/${locales}.plist: "${filePath}". ${error.message}}`
+              );
             }
-            return plist.default.parse(
-              await fs.promises.readFile(filePath, "utf-8")
-            );
-          } catch (error) {
-            throw new Error(
-              `Failed to parse the Root.plist: "${filePath}". ${error.message}}`
-            );
-          }
-        },
-        async write(filePath, { modResults, modRequest: { introspect } }) {
-          if (introspect) {
-            return;
-          }
-          const contents = plist.default.build(modResults);
-          // Ensure Settings.bundle
-          await fs.promises.mkdir(path.dirname(filePath), { recursive: true });
-          await fs.promises.writeFile(filePath, contents);
-        },
-      }),
-    },
-  });
-};
+          },
+          async write(filePath, { modResults, modRequest: { introspect } }) {
+            if (introspect) {
+              return;
+            }
+            const contents = plist.default.build(modResults);
+            // Ensure Settings.bundle
+            await fs.promises.mkdir(path.dirname(filePath), {
+              recursive: true,
+            });
+            await fs.promises.writeFile(filePath, contents);
+          },
+        }),
+      },
+    });
+  };
 
-export const withRootPlistBaseMod = createRunOncePlugin(
-  withRootPlistBaseModInternal,
-  "withRootPlistBaseMod"
-);
+  const baseName = `withAppleSettings${name}PlistBaseMod`;
+
+  return {
+    withSettingsPlist,
+    withBaseMod: createRunOncePlugin(withRootPlistBaseModInternal, baseName),
+  };
+}

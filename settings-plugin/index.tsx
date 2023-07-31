@@ -1,12 +1,11 @@
 import { ConfigPlugin } from "@expo/config-plugins";
 
-import withIosSettingsPersist from "./withIosSettingsPersist";
-import { withRootPlist } from "./withRootPlist";
+import withIosSettingsPersist, { rootPlist } from "./withIosSettingsPersist";
 import { withSettingsStrings } from "./withSettingsStrings";
 
 export const withSettingsBundle: ConfigPlugin = (config) => {
   // Make some modifications
-  withRootPlist(config, (config) => {
+  rootPlist.withSettingsPlist(config, (config) => {
     config.modResults.PreferenceSpecifiers = [
       { Type: "PSGroupSpecifier", Title: "Group" },
       {
@@ -48,4 +47,4 @@ export const withSettingsBundle: ConfigPlugin = (config) => {
   return withIosSettingsPersist(config);
 };
 
-export { withRootPlist, withSettingsStrings };
+export { withSettingsStrings };
