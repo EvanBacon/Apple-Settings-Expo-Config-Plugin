@@ -7,21 +7,35 @@ import { withSettingsStrings } from "./withSettingsStrings";
 export const withSettingsBundle: ConfigPlugin = (config) => {
   // Make some modifications
   withRootPlist(config, (config) => {
-    config.modResults.PreferenceSpecifiers = [];
-    config.modResults.PreferenceSpecifiers.push({
-      Type: "PSSliderSpecifier",
-      Key: "eeee",
-      DefaultValue: 0.5,
-      MaximumValue: 1,
-      MinimumValue: 0,
-    });
-    config.modResults.PreferenceSpecifiers.push({
-      Type: "PSTitleValueSpecifier",
-      Key: "title",
-      DefaultValue: "title",
-      Values: ["title"],
-      Titles: ["title"],
-    });
+    config.modResults.PreferenceSpecifiers = [
+      { Type: "PSGroupSpecifier", Title: "Group" },
+      {
+        Type: "PSTextFieldSpecifier",
+        Title: "Name",
+        Key: "name_preference",
+        DefaultValue: "",
+        IsSecure: false,
+        KeyboardType: "Alphabet",
+        AutocapitalizationType: "None",
+        AutocorrectionType: "No",
+      },
+      {
+        Type: "PSToggleSwitchSpecifier",
+        Title: "Enabled",
+        Key: "enabled_preference",
+        DefaultValue: true,
+      },
+      {
+        Type: "PSSliderSpecifier",
+        Key: "slider_preference",
+        DefaultValue: 0.5,
+        MinimumValue: 0,
+        MaximumValue: 1,
+        MinimumValueImage: "",
+        MaximumValueImage: "",
+      },
+    ];
+
     return config;
   });
 

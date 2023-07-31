@@ -8,31 +8,53 @@
     <array>
       <dict>
         <key>Type</key>
-        <string>PSSliderSpecifier</string>
-        <key>Key</key>
-        <string>eeee</string>
-        <key>DefaultValue</key>
-        <real>0.5</real>
-        <key>MaximumValue</key>
-        <integer>1</integer>
-        <key>MinimumValue</key>
-        <integer>0</integer>
+        <string>PSGroupSpecifier</string>
+        <key>Title</key>
+        <string>Group</string>
       </dict>
       <dict>
         <key>Type</key>
-        <string>PSTitleValueSpecifier</string>
+        <string>PSTextFieldSpecifier</string>
+        <key>Title</key>
+        <string>Name</string>
         <key>Key</key>
-        <string>title</string>
+        <string>name_preference</string>
         <key>DefaultValue</key>
-        <string>title</string>
-        <key>Values</key>
-        <array>
-          <string>title</string>
-        </array>
-        <key>Titles</key>
-        <array>
-          <string>title</string>
-        </array>
+        <string/>
+        <key>IsSecure</key>
+        <false/>
+        <key>KeyboardType</key>
+        <string>Alphabet</string>
+        <key>AutocapitalizationType</key>
+        <string>None</string>
+        <key>AutocorrectionType</key>
+        <string>No</string>
+      </dict>
+      <dict>
+        <key>Type</key>
+        <string>PSToggleSwitchSpecifier</string>
+        <key>Title</key>
+        <string>Enabled</string>
+        <key>Key</key>
+        <string>enabled_preference</string>
+        <key>DefaultValue</key>
+        <true/>
+      </dict>
+      <dict>
+        <key>Type</key>
+        <string>PSSliderSpecifier</string>
+        <key>Key</key>
+        <string>slider_preference</string>
+        <key>DefaultValue</key>
+        <real>0.5</real>
+        <key>MinimumValue</key>
+        <integer>0</integer>
+        <key>MaximumValue</key>
+        <integer>1</integer>
+        <key>MinimumValueImage</key>
+        <string/>
+        <key>MaximumValueImage</key>
+        <string/>
       </dict>
     </array>
   </dict>

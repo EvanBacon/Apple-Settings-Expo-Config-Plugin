@@ -33,7 +33,7 @@ const withSettingsStringsBaseModInternal: ConfigPlugin = (config) => {
     providers: {
       [customModName]: BaseMods.provider<SettingsStrings>({
         isIntrospective: true,
-        async getFilePath({ modRequest, _internal }) {
+        async getFilePath({ modRequest }) {
           return path.join(
             modRequest.platformProjectRoot,
             modRequest.projectName!,

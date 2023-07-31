@@ -33,11 +33,8 @@ const withXcodeProjectBetaBaseModInternal: ConfigPlugin = (config) => {
       [customModName]: BaseMods.provider<XcodeProject>({
         isIntrospective: false,
         // isIntrospective: true,
-        async getFilePath({ modRequest, _internal }) {
-          // console.log("_internal", _internal.projectRoot);
-          // HACK: To keep soft-clean working, we need to read from the the project and not the template.
+        async getFilePath({ _internal }) {
           return IOSConfig.Paths.getPBXProjectPath(_internal.projectRoot);
-          // return IOSConfig.Paths.getPBXProjectPath(modRequest.projectRoot);
         },
         async read(filePath) {
           try {
