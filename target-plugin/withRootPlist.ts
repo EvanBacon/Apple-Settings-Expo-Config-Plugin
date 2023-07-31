@@ -108,7 +108,10 @@ export type RootPlist = {
         // https://developer.apple.com/library/archive/documentation/PreferenceSettings/Conceptual/SettingsApplicationSchemaReference/Articles/PSTitleValueSpecifier.html#//apple_ref/doc/uid/TP40007015-SW1
         /** This element represents a read-only preference. You can use it to provide the user with information about your app’s configuration. The Values and Titles keys let you associate human-readable strings with values in the defaults database that might otherwise be considered cryptic. The number of entries in both arrays must be equal. When a value at a given index is associated with the preference key, the string at the same index in the Titles array is displayed for the preference by the Settings app. */
         Type: "PSTitleValueSpecifier";
-        /** The string displayed to the left of the value. */
+        /**
+         * The string displayed to the left of the value.
+         * @localizable
+         */
         Title?: string;
         /** The preference key identifying the value. This is the string you use this to retrieve the preference value from the defaults database. */
         Key: string;
@@ -116,7 +119,10 @@ export type RootPlist = {
         DefaultValue: string;
         /** An array of the values that could be associated with the preference key (Key entry) in the defaults database. These values can be of any type. Each value should have a corresponding value in the Titles array. */
         Values?: string[];
-        /** An array of strings that represent user-readable versions of the values in the Values array. */
+        /**
+         * An array of strings that represent user-readable versions of the values in the Values array.
+         * @localizable
+         */
         Titles?: string[];
       }
     | {

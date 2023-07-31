@@ -19,6 +19,8 @@ export const withSettingsBundle: ConfigPlugin = (config) => {
       Type: "PSTitleValueSpecifier",
       Key: "title",
       DefaultValue: "title",
+      Values: ["title"],
+      Titles: ["title"],
     });
     return config;
   });
