@@ -8,6 +8,8 @@ import {
 import * as fs from "fs";
 import path from "path";
 
+import { readStrings, writeStrings } from "./strings";
+
 const customModName = "settingsStrings";
 
 export type SettingsStrings = Record<string, string>;
@@ -22,15 +24,6 @@ export const withSettingsStrings: ConfigPlugin<Mod<SettingsStrings>> = (
     action,
   });
 };
-
-function parseStringsFile(src: string): SettingsStrings {
-  // TODO: ...
-  return {};
-}
-function buildStringsFile(src: SettingsStrings): string {
-  // TODO: ...
-  return "";
-}
 
 const withSettingsStringsBaseModInternal: ConfigPlugin = (config) => {
   return BaseMods.withGeneratedBaseMods(config, {
@@ -52,9 +45,10 @@ const withSettingsStringsBaseModInternal: ConfigPlugin = (config) => {
             if (fs.existsSync(filePath) === false) {
               return {};
             }
-            return parseStringsFile(
-              await fs.promises.readFile(filePath, "utf-8")
-            );
+            return readStrings(filePath, false) as unknown as Record<
+              string,
+              string
+            >;
           } catch (error) {
             throw new Error(
               `Failed to parse the Settings.bundle/en.lproj/Root.strings: "${filePath}". ${error.message}}`
@@ -65,10 +59,9 @@ const withSettingsStringsBaseModInternal: ConfigPlugin = (config) => {
           if (introspect) {
             return;
           }
-          const contents = buildStringsFile(modResults);
           // Ensure Settings.bundle/en.lproj
           await fs.promises.mkdir(path.dirname(filePath), { recursive: true });
-          await fs.promises.writeFile(filePath, contents);
+          await writeStrings(filePath, modResults);
         },
       }),
     },

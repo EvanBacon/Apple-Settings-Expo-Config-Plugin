@@ -1,28 +1,35 @@
 import { ConfigPlugin } from "@expo/config-plugins";
-import { sync as globSync } from "glob";
-import path from "path";
-import withWidget from "./withWidget";
 
-import { withXcodeProjectBetaBaseMod } from "./withXcparse";
+import withIosSettingsPersist from "./withIosSettingsPersist";
+import { withRootPlist } from "./withRootPlist";
+import { withSettingsStrings } from "./withSettingsStrings";
 
-export const withTargetsDir: ConfigPlugin<{
-  appleTeamId: string;
-  match?: string;
-}> = (config, { appleTeamId, match = "*" }) => {
-  const projectRoot = config._internal.projectRoot;
-
-  const targets = globSync(`./targets/${match}/expo-target.config.@(json|js)`, {
-    cwd: projectRoot,
-    absolute: true,
-  });
-
-  targets.forEach((configPath) => {
-    config = withWidget(config, {
-      appleTeamId: appleTeamId,
-      ...require(configPath),
-      directory: path.relative(projectRoot, path.dirname(configPath)),
+export const withSettingsBundle: ConfigPlugin = (config) => {
+  // Make some modifications
+  withRootPlist(config, (config) => {
+    config.modResults.PreferenceSpecifiers = [];
+    config.modResults.PreferenceSpecifiers.push({
+      Type: "PSSliderSpecifier",
+      Key: "eeee",
+      DefaultValue: 0.5,
+      MaximumValue: 1,
+      MinimumValue: 0,
     });
+    config.modResults.PreferenceSpecifiers.push({
+      Type: "PSTitleValueSpecifier",
+      Key: "title",
+      DefaultValue: "title",
+    });
+    return config;
   });
 
-  return withXcodeProjectBetaBaseMod(config);
+  // Add some localized title
+  withSettingsStrings(config, (config) => {
+    config.modResults["title"] = "Hello World";
+    return config;
+  });
+
+  return withIosSettingsPersist(config);
 };
+
+export { withRootPlist, withSettingsStrings };
