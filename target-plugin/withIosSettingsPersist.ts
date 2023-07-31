@@ -5,8 +5,6 @@ import { withSettingsStringsBaseMod } from "./withSettingsStrings";
 import { withLinkedSettingsBundle } from "./withXcodeChanges";
 import { withXcodeProjectBetaBaseMod } from "./withXcparse";
 
-type Props = {};
-
 const withIosSettingsPersistence: ConfigPlugin = (config) => {
   // Link Settings.bundle to the Xcode project.
   withLinkedSettingsBundle(config);
@@ -19,9 +17,4 @@ const withIosSettingsPersistence: ConfigPlugin = (config) => {
   return config;
 };
 
-const withIosSettings: ConfigPlugin<Props> = (config, props) => {
-  // Must be last
-  return withIosSettingsPersistence(config);
-};
-
-export default withIosSettings;
+export default withIosSettingsPersistence;
