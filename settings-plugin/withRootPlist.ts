@@ -18,7 +18,7 @@ type PreferenceSpecifier = {
 };
 
 /** https://developer.apple.com/library/archive/documentation/PreferenceSettings/Conceptual/SettingsApplicationSchemaReference/RevisionHistory.html#//apple_ref/doc/uid/TP40007071-CH2-SW1 */
-export type RootPlist = {
+export type SettingsPlist = {
   /** The name of the strings file associated with this schema file. A copy of this file (with appropriate localized strings) should be located in each of your bundle’s language-specific project directories. If you do not include this key, the strings in this schema file are not localized. For information on creating strings files, see Internationalization and Localization Guide. */
   StringsTable?: string;
   /**
@@ -178,11 +178,13 @@ export type RootPlist = {
 
 export function createModSetForSettingsPage({
   name = "Root",
-  locales = name,
-}: { name?: string; locales?: string } = {}) {
+}: { name?: string } = {}) {
   const customModName = "settings" + name + "Plist";
 
-  const withSettingsPlist: ConfigPlugin<Mod<RootPlist>> = (config, action) => {
+  const withSettingsPlist: ConfigPlugin<Mod<SettingsPlist>> = (
+    config,
+    action
+  ) => {
     return withMod(config, {
       platform: "ios",
       mod: customModName,
@@ -196,7 +198,7 @@ export function createModSetForSettingsPage({
       saveToInternal: true,
       skipEmptyMod: false,
       providers: {
-        [customModName]: BaseMods.provider<RootPlist>({
+        [customModName]: BaseMods.provider<SettingsPlist>({
           isIntrospective: true,
 
           async getFilePath({ modRequest, _internal }) {
@@ -210,7 +212,6 @@ export function createModSetForSettingsPage({
             try {
               if (fs.existsSync(filePath) === false) {
                 return {
-                  StringsTable: locales,
                   PreferenceSpecifiers: [],
                 };
               }
@@ -219,7 +220,7 @@ export function createModSetForSettingsPage({
               );
             } catch (error) {
               throw new Error(
-                `Failed to parse the iOS Settings.bundle/${locales}.plist: "${filePath}". ${error.message}}`
+                `Failed to parse the iOS Settings.bundle/${name}.plist: "${filePath}". ${error.message}}`
               );
             }
           },
