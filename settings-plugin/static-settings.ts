@@ -7,7 +7,7 @@ import { createModSetForSettingsStrings } from "./withSettingsStrings";
 export const withStaticSettings: ConfigPlugin<
   Record<
     string,
-    { page: SettingsPlist; locales: Record<string, Record<string, string>> }
+    { page: SettingsPlist; locales?: Record<string, Record<string, string>> }
   >
 > = (config, panes) => {
   if (!panes || !("Root" in panes)) {
@@ -28,8 +28,6 @@ export const withStaticSettings: ConfigPlugin<
       const name = pane.page.StringsTable ?? key;
       pane.page.StringsTable = name;
 
-      console.log("Generating strings for", name, Object.keys(locales));
-
       Object.entries(pane.locales).map(([lang, strings]) => {
         const stringsMods = createModSetForSettingsStrings({
           name,
@@ -38,7 +36,6 @@ export const withStaticSettings: ConfigPlugin<
 
         stringsMods.withStrings(config, (config) => {
           config.modResults = strings;
-          console.log("Pushing locales:", strings);
 
           return config;
         });
@@ -46,7 +43,8 @@ export const withStaticSettings: ConfigPlugin<
         postMods.push(stringsMods.withBaseMod);
       });
     } else {
-      delete pane.page.StringsTable;
+      // Allow using the default strings table.
+      //   delete pane.page.StringsTable;
     }
 
     config = mods.withSettingsPlist(config, (config) => {
@@ -60,6 +58,5 @@ export const withStaticSettings: ConfigPlugin<
 
   withIosSettingsPersist(config);
 
-  console.log("postMods", postMods);
   return withPlugins(config, postMods);
 };
