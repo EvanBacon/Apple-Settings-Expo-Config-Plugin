@@ -25,6 +25,7 @@ export type PSGroupSpecifier = {
   /** Additional text to display below the group box. Providing a footer is optional. The value of this key is localizable. On tvOS, the additional text is limited to 5 lines. */
   FooterText?: string;
 } & PreferenceSpecifier;
+
 export type PSTextFieldSpecifier = {
   // https://developer.apple.com/library/archive/documentation/PreferenceSettings/Conceptual/SettingsApplicationSchemaReference/Articles/PSTextFieldSpecifier.html
   /** A text field preference. This element displays an optional title and an editable text field. You can use this type for preferences that require the user to specify a custom string value. For more information, see Text Field Element. */
@@ -48,8 +49,9 @@ export type PSTextFieldSpecifier = {
   /** The auto-correction style to apply when typing. This value must contain one of the following strings: Default , No , Yes.
    * @default "Default"
    */
-  AutocorrectionType: "Default" | "No" | string;
+  AutocorrectionType: "Default" | "No" | "Yes";
 } & PreferenceSpecifier;
+
 export type PSToggleSwitchSpecifier = {
   /** This element displays an ON/OFF button that can be toggled by the user. */
   Type: "PSToggleSwitchSpecifier";
@@ -59,13 +61,12 @@ export type PSToggleSwitchSpecifier = {
   Key: string;
   /** The default value for the preference key. This value is returned when the specified preferences key (represented by the Key entry) is not present in the defaults database. */
   DefaultValue: any;
-
   /** The value associated with the preference when the toggle switch is in the ON position. The value type for this key can be any scalar type, including `boolean`, `string`, `number`, `Date`, or Data. If this key is not present, the default value type is a `boolean` with the value `true`. */
   TrueValue?: any;
-
   /** The value associated with the preference when the toggle switch is in the OFF position. The value type for this key can be any scalar type, including `boolean`, `string`, `number`, `Date`, or Data. If this key is not present, the default value type is a `boolean` with the value `false`. */
   FalseValue?: any;
 } & PreferenceSpecifier;
+
 export type PSSliderSpecifier = {
   /** This element displays a slider that you can use to specify a continuous range of values for the user. Note: Sliders are not supported on tvOS. */
   Type: "PSSliderSpecifier";
@@ -82,6 +83,7 @@ export type PSSliderSpecifier = {
   /** The image to display on the side of the slider representing the maximum value. This image should be 21 by 21 pixels. */
   MaximumValueImage?: string;
 } & PreferenceSpecifier;
+
 export type PSChildPaneSpecifier = {
   // This element displays a preferences row, that when tapped loads a new page of preferences. You can use this element type to build hierarchical pages of preferences.
   Type: "PSChildPaneSpecifier";
@@ -90,6 +92,7 @@ export type PSChildPaneSpecifier = {
   /** The name of the schema file to load. (This file must be a property list file.) The string you specify for this key should not contain path information or the .plist filename extension of your schema file. The Settings app looks in the top-level of your settings bundle for a .plist file with the specified name. For example, if you had a MyPrefs.plist file, you would assign the value MyPrefs to this key. This key is required. */
   File: string;
 } & PreferenceSpecifier;
+
 export type PSTitleValueSpecifier = {
   // https://developer.apple.com/library/archive/documentation/PreferenceSettings/Conceptual/SettingsApplicationSchemaReference/Articles/PSTitleValueSpecifier.html#//apple_ref/doc/uid/TP40007015-SW1
   /** This element represents a read-only preference. You can use it to provide the user with information about your app’s configuration. The Values and Titles keys let you associate human-readable strings with values in the defaults database that might otherwise be considered cryptic. The number of entries in both arrays must be equal. When a value at a given index is associated with the preference key, the string at the same index in the Titles array is displayed for the preference by the Settings app. */
@@ -111,11 +114,11 @@ export type PSTitleValueSpecifier = {
    */
   Titles?: string[];
 } & PreferenceSpecifier;
+
 export type PSMultiValueSpecifier = {
   // https://developer.apple.com/library/archive/documentation/PreferenceSettings/Conceptual/SettingsApplicationSchemaReference/Articles/PSMultiValueSpecifier.html#//apple_ref/doc/uid/TP40007016-SW1
   /** When the user taps a preference containing a multi-value element, the Settings app displays a new page with the possible values to choose from. Upon selecting a value, the user is returned to the previous page, and the selected value is displayed in the preference row. */
   Type: "PSMultiValueSpecifier";
-
   /** The user-readable string identifying the preference. */
   Title: string;
   /** The preference key with which to associate the value. This is the string you use this to retrieve the preference value in your code. */
@@ -131,11 +134,11 @@ export type PSMultiValueSpecifier = {
   /** If Yes, the values are displayed in the localized sort order of the Titles array. */
   DisplaySortedByTitle?: boolean;
 } & PreferenceSpecifier;
+
 export type PSRadioGroupSpecifier = {
   // https://developer.apple.com/library/archive/documentation/PreferenceSettings/Conceptual/SettingsApplicationSchemaReference/Articles/RadioGroupElement.html#//apple_ref/doc/uid/TP30915196-SW2
   /** This type defines a radio group element, which provides two or more choices of which only one at a time can be selected. */
   Type: "PSRadioGroupSpecifier";
-
   /**
    * The title of the group. If you do not specify this key, a gap is inserted between preferences.
    * @localizable
@@ -157,7 +160,7 @@ export type PSRadioGroupSpecifier = {
    * @localizable
    */
   Titles: string[];
-  /** If Yes, the values are displayed in the localized sort order of the Titles array. */
+  /** If `true`, the values are displayed in the localized sort order of the Titles array. */
   DisplaySortedByTitle?: boolean;
 } & PreferenceSpecifier;
 
@@ -207,7 +210,7 @@ export function createModSetForSettingsPage({ name }: { name: string }) {
         [customModName]: BaseMods.provider<SettingsPlist>({
           isIntrospective: true,
 
-          async getFilePath({ modRequest, _internal }) {
+          async getFilePath({ modRequest }) {
             return path.join(
               modRequest.platformProjectRoot,
               modRequest.projectName!,

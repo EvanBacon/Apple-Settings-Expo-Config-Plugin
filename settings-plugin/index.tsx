@@ -1,5 +1,5 @@
 import { ConfigPlugin } from "@expo/config-plugins";
-import { withStaticSettings } from "./static-settings";
+import { withStaticSettings } from "./static";
 import {
   PSChildPaneSpecifier,
   PSGroupSpecifier,

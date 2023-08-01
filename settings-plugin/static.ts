@@ -60,3 +60,5 @@ export const withStaticSettings: ConfigPlugin<
 
   return withPlugins(config, postMods);
 };
+
+export default withStaticSettings;
