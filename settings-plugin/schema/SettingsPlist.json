@@ -332,6 +332,18 @@
           "items": { "$ref": "#/definitions/UserInterfaceIdiom" }
         }
       }
+    },
+    "AnyPreferenceSpecifier": {
+      "oneOf": [
+        { "$ref": "#/definitions/PSGroupSpecifier" },
+        { "$ref": "#/definitions/PSTextFieldSpecifier" },
+        { "$ref": "#/definitions/PSToggleSwitchSpecifier" },
+        { "$ref": "#/definitions/PSSliderSpecifier" },
+        { "$ref": "#/definitions/PSChildPaneSpecifier" },
+        { "$ref": "#/definitions/PSTitleValueSpecifier" },
+        { "$ref": "#/definitions/PSMultiValueSpecifier" },
+        { "$ref": "#/definitions/PSRadioGroupSpecifier" }
+      ]
     }
   },
   "title": "SettingsPlist",
@@ -353,14 +365,7 @@
       "type": "array",
       "items": {
         "oneOf": [
-          { "$ref": "#/definitions/PSGroupSpecifier" },
-          { "$ref": "#/definitions/PSTextFieldSpecifier" },
-          { "$ref": "#/definitions/PSToggleSwitchSpecifier" },
-          { "$ref": "#/definitions/PSSliderSpecifier" },
-          { "$ref": "#/definitions/PSChildPaneSpecifier" },
-          { "$ref": "#/definitions/PSTitleValueSpecifier" },
-          { "$ref": "#/definitions/PSMultiValueSpecifier" },
-          { "$ref": "#/definitions/PSRadioGroupSpecifier" }
+          { "$ref": "#/definitions/AnyPreferenceSpecifier" }
         ]
       }
     }

@@ -5,6 +5,15 @@
  * and run json-schema-to-typescript to regenerate this file.
  */
 
+export type AnyPreferenceSpecifier =
+  | PSGroupSpecifier
+  | PSTextFieldSpecifier
+  | PSToggleSwitchSpecifier
+  | PSSliderSpecifier
+  | PSChildPaneSpecifier
+  | PSTitleValueSpecifier
+  | PSMultiValueSpecifier
+  | PSRadioGroupSpecifier;
 export type UserInterfaceIdiom = "Pad" | "Phone";
 export type ScalarType = string | number | boolean;
 
@@ -23,16 +32,7 @@ export interface SettingsPlist {
   /**
    * An array of dictionaries, each of which contains the data for a single preference element. The order of the elements in the array defines the order that they are displayed on the screen.
    */
-  PreferenceSpecifiers: (
-    | PSGroupSpecifier
-    | PSTextFieldSpecifier
-    | PSToggleSwitchSpecifier
-    | PSSliderSpecifier
-    | PSChildPaneSpecifier
-    | PSTitleValueSpecifier
-    | PSMultiValueSpecifier
-    | PSRadioGroupSpecifier
-  )[];
+  PreferenceSpecifiers: AnyPreferenceSpecifier[];
 }
 /**
  * This type defines a group element, which is a way to visually group preferences on a page. This element should be placed in front of the preferences associated with the group. You can assign a title to the group or omit the key to display a gap between preferences. https://developer.apple.com/library/archive/documentation/PreferenceSettings/Conceptual/SettingsApplicationSchemaReference/Articles/PSGroupSpecifier.html#//apple_ref/doc/uid/TP40007009-SW1
@@ -76,7 +76,12 @@ export interface PSTextFieldSpecifier {
   /**
    * The type of keyboard to display to the user.
    */
-  KeyboardType?: "Alphabet" | "NumbersAndPunctuation" | "NumberPad" | "URL" | "EmailAddress";
+  KeyboardType?:
+    | "Alphabet"
+    | "NumbersAndPunctuation"
+    | "NumberPad"
+    | "URL"
+    | "EmailAddress";
   /**
    * The auto-capitalization style to apply to typed text.
    */
