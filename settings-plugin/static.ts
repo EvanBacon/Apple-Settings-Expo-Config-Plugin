@@ -1,9 +1,10 @@
 import { ConfigPlugin, withPlugins } from "@expo/config-plugins";
 import { SettingsPlist } from "./schema/SettingsPlist";
 
-import withIosSettingsPersist from "./withIosSettingsPersist"; // rootPlist, // rootEnglishStrings,
-import { createModSetForSettingsPage } from "./withRootPlist";
+import { createModSetForSettingsPage } from "./withSettingsPlist";
 import { createModSetForSettingsStrings } from "./withSettingsStrings";
+import { withLinkedSettingsBundle } from "./withLinkedSettingsBundle";
+import { withXcodeProjectBetaBaseMod } from "./withXcparse";
 
 export const withStaticSettings: ConfigPlugin<
   Record<
@@ -57,7 +58,11 @@ export const withStaticSettings: ConfigPlugin<
     postMods.push(mods.withBaseMod);
   });
 
-  withIosSettingsPersist(config);
+  // Link Settings.bundle to the Xcode project.
+  withLinkedSettingsBundle(config);
+
+  // These must be last...
+  withXcodeProjectBetaBaseMod(config);
 
   return withPlugins(config, postMods);
 };

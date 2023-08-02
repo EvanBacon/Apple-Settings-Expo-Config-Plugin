@@ -68,7 +68,6 @@ function unescapeString(str: string): string {
 
 export async function readStrings(file: string, wantComments?: boolean) {
   const data = await fs.promises.readFile(file);
-
   return parse(iconv.decode(data, "utf-16"), wantComments);
 }
 
