@@ -7,6 +7,7 @@
     "ios": "expo run:ios",
     "web": "expo start --web",
     "generate-types": "json2ts -i ./settings-plugin/schema/SettingsPlist.json -o ./settings-plugin/schema/SettingsPlist.ts --additionalProperties=false --unknownAny=false",
+    "prepare": "yarn generate-types",
     "nprebuild": "expo prebuild --template ./prebuild-template-no-rn.tgz -p ios"
   },
   "dependencies": {

@@ -1,7 +1,8 @@
 import { ConfigPlugin, withPlugins } from "@expo/config-plugins";
+import { SettingsPlist } from "./schema/SettingsPlist";
 
 import withIosSettingsPersist from "./withIosSettingsPersist"; // rootPlist, // rootEnglishStrings,
-import { createModSetForSettingsPage, SettingsPlist } from "./withRootPlist";
+import { createModSetForSettingsPage } from "./withRootPlist";
 import { createModSetForSettingsStrings } from "./withSettingsStrings";
 
 export const withStaticSettings: ConfigPlugin<

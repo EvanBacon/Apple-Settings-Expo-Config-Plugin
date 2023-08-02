@@ -4,7 +4,7 @@ import {
   PSChildPaneSpecifier,
   PSGroupSpecifier,
   SettingsPlist,
-} from "./withRootPlist";
+} from "./schema/SettingsPlist";
 
 // console.log(require('@expo/plist').default.parse(``))
 
