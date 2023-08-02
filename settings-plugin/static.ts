@@ -1,10 +1,10 @@
 import { ConfigPlugin, withPlugins } from "@expo/config-plugins";
 import { SettingsPlist } from "./schema/SettingsPlist";
 
-import { createModSetForSettingsPage } from "./withSettingsPlist";
-import { createModSetForSettingsStrings } from "./withSettingsStrings";
+import { createModSetForSettingsPage } from "./base-mods/withSettingsPlist";
+import { createModSetForSettingsStrings } from "./base-mods/withSettingsStrings";
 import { withLinkedSettingsBundle } from "./withLinkedSettingsBundle";
-import { withXcodeProjectBetaBaseMod } from "./withXcparse";
+import { withXcodeProjectBetaBaseMod } from "./base-mods/withXcparse";
 
 export const withStaticSettings: ConfigPlugin<
   Record<

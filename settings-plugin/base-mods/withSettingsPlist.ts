@@ -9,7 +9,7 @@ import * as plist from "@expo/plist";
 import * as fs from "fs";
 import path from "path";
 
-import { SettingsPlist } from "./schema/SettingsPlist";
+import { SettingsPlist } from "../schema/SettingsPlist";
 
 export function createModSetForSettingsPage({ name }: { name: string }) {
   const customModName = "settings" + name + "Plist";

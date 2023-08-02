@@ -6,8 +6,8 @@ import {
 import { ConfigPlugin } from "@expo/config-plugins";
 import path from "path";
 
-import { getMainAppTarget } from "./target";
-import { withXcodeProjectBeta } from "./withXcparse";
+import { getMainAppTarget } from "./base-mods/target";
+import { withXcodeProjectBeta } from "./base-mods/withXcparse";
 
 export const withLinkedSettingsBundle: ConfigPlugin = (config) => {
   return withXcodeProjectBeta(config, (config) => {
