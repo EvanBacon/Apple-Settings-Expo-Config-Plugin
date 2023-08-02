@@ -6,6 +6,14 @@
     <array>
       <dict>
         <key>Type</key>
+        <string>PSChildPaneSpecifier</string>
+        <key>Title</key>
+        <string>Acknowledgements</string>
+        <key>File</key>
+        <string>Acknowledgements</string>
+      </dict>
+      <dict>
+        <key>Type</key>
         <string>PSGroupSpecifier</string>
         <key>Title</key>
         <string>Group</string>
@@ -19,8 +27,6 @@
         <string>name_preference</string>
         <key>DefaultValue</key>
         <string/>
-        <key>IsSecure</key>
-        <false/>
         <key>KeyboardType</key>
         <string>Alphabet</string>
         <key>AutocapitalizationType</key>
@@ -37,23 +43,33 @@
         <string>enabled_preference</string>
         <key>DefaultValue</key>
         <true/>
+        <key>FalseValue</key>
+        <false/>
+        <key>TrueValue</key>
+        <true/>
       </dict>
       <dict>
         <key>Type</key>
         <string>PSSliderSpecifier</string>
-        <key>Key</key>
-        <string>slider_preference</string>
         <key>DefaultValue</key>
         <real>0.5</real>
-        <key>MinimumValue</key>
-        <integer>0</integer>
         <key>MaximumValue</key>
         <integer>1</integer>
-        <key>MinimumValueImage</key>
-        <string/>
-        <key>MaximumValueImage</key>
-        <string/>
+        <key>MinimumValue</key>
+        <integer>0</integer>
+        <key>Key</key>
+        <string>slider_preference</string>
+      </dict>
+      <dict>
+        <key>Type</key>
+        <string>PSChildPaneSpecifier</string>
+        <key>Title</key>
+        <string>About</string>
+        <key>File</key>
+        <string>About</string>
       </dict>
     </array>
+    <key>StringsTable</key>
+    <string>Root</string>
   </dict>
 </plist>

@@ -5,7 +5,15 @@ import {
   PSChildPaneSpecifier,
   SettingsPlist,
 } from "./schema/SettingsPlist";
-import { Group, Slider, Switch, TextField } from "./models";
+import {
+  ChildPane,
+  Group,
+  RadioGroup,
+  Slider,
+  Switch,
+  TextField,
+  Title,
+} from "./models";
 
 // console.log(require('@expo/plist').default.parse(``))
 
@@ -82,10 +90,46 @@ export const withSettingsBundle: ConfigPlugin = (config) => {
             key: "slider_preference",
             value: 0.5,
           }),
+          ChildPane({
+            title: "About",
+          }),
         ],
       },
     },
-    About: page([]),
+    About: page([
+      Title({
+        title: "About",
+        key: "about",
+        value: "This is a description of the app.",
+      }),
+      RadioGroup({
+        value: "option1",
+        key: "radio_preference",
+        items: [
+          {
+            title: "Option 1",
+            value: "option1",
+          },
+
+          {
+            title: "Option 2",
+            value: "option2",
+          },
+        ],
+      }),
+      ChildPane({
+        title: "More",
+      }),
+    ]),
+    More: page([
+      Group({
+        title: "Group",
+        footerText: "This is a footer",
+      }),
+      ChildPane({
+        title: "Acknowledgements",
+      }),
+    ]),
     Acknowledgements: {
       page: {
         ...createAcknowledgementsPanel([{ title: "blurhash", text: "foobar" }]),

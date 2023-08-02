@@ -76,12 +76,7 @@ export interface PSTextFieldSpecifier {
   /**
    * The type of keyboard to display to the user.
    */
-  KeyboardType?:
-    | "Alphabet"
-    | "NumbersAndPunctuation"
-    | "NumberPad"
-    | "URL"
-    | "EmailAddress";
+  KeyboardType?: "Alphabet" | "NumbersAndPunctuation" | "NumberPad" | "URL" | "EmailAddress";
   /**
    * The auto-capitalization style to apply to typed text.
    */
