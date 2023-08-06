@@ -1,5 +1,7 @@
 # Apple Settings plugin
 
+> This proof-of-concept has been published as [`@config-plugins/apple-settings`](https://github.com/expo/config-plugins/tree/main/packages/apple-settings)
+
 An Expo Config Plugin that generates additional UI for the Settings page of your app in iOS Settings.
 
 > This is highly experimental and not part of any official Expo workflow.
